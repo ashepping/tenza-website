@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TENZA — Профессиональные малярные и технические ленты</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .brand-gradient-text {
+            background: linear-gradient(135deg, #ff007f, #7f00ff, #00bfff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .brand-gradient-bg {
+            background: linear-gradient(135deg, #ff007f, #7f00ff, #00bfff);
+        }
+        .brand-gradient-border {
+            position: relative;
+        }
+        .brand-gradient-border::after {
+            content: '';
+            position: absolute;
+            left: 0; bottom: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ff007f, #7f00ff, #00bfff);
+        }
+    </style>
+</head>
+<body class="bg-[#0b0c10] text-gray-100 font-sans selection:bg-[#7f00ff] selection:text-white">
+
+    <header class="border-b border-gray-800 bg-[#0b0c10]/90 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="text-2xl font-black tracking-wider brand-gradient-text">TENZA</div>
+            <nav class="hidden md:flex space-x-8 text-sm uppercase tracking-widest text-gray-400">
+                <a href="#about" class="hover:text-white transition">О бренде</a>
+                <a href="#production" class="hover:text-white transition">Производство</a>
+                <a href="#products" class="hover:text-white transition">Продукция</a>
+                <a href="#contacts" class="hover:text-white transition">Контакты</a>
+            </nav>
+            <a href="#contacts" class="text-xs uppercase tracking-wider border border-gray-700 hover:border-white px-5 h-10 flex items-center justify-center rounded-sm transition">
+                Заказать образцы
+            </a>
+        </div>
+    </header>
+
+    <section class="relative h-[85vh] flex items-center justify-center overflow-hidden border-b border-gray-950">
+        <video class="absolute top-0 left-0 w-full h-full object-cover opacity-40 z-0" autoplay loop muted playsinline poster="https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=1920">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-laser-lights-background-42066-large.mp4" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0b0c10] via-transparent to-[#0b0c10] z-10"></div>
+        
+        <div class="relative max-w-5xl mx-auto px-6 text-center z-20">
+            <span class="text-xs font-bold uppercase tracking-[0.3em] brand-gradient-text">Абсолютная точность. Безупречный край.</span>
+            <h1 class="text-4xl md:text-7xl font-extrabold tracking-tight mt-4 mb-8 text-white">
+                Профессиональные ленты <br><span class="brand-gradient-text">TENZA</span>
+            </h1>
+            <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed mb-10">
+                Премиальные технические и малярные ленты для автомобильной, индустриальной и строительной сферы. Не оставляют следов клея. Не рвутся при снятии.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#products" class="brand-gradient-bg text-white font-medium px-8 py-4 rounded-sm text-sm uppercase tracking-wider hover:opacity-90 transition shadow-lg shadow-[#7f00ff]/20">
+                    Перейти к каталогу
+                </a>
+                <a href="#production" class="bg-gray-900 text-white font-medium border border-gray-800 px-8 py-4 rounded-sm text-sm uppercase tracking-wider hover:bg-gray-800 transition">
+                    Смотреть тесты
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="production" class="py-24 max-w-7xl mx-auto px-6">
+        <div class="border-b border-gray-800 pb-8 mb-16">
+            <h2 class="text-xs uppercase tracking-[0.3em] brand-gradient-text mb-2">Качество в действии</h2>
+            <p class="text-3xl font-bold tracking-tight text-white">Зацикленные видео-тесты производства</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="bg-[#12141c] border border-gray-800 p-4 rounded-sm">
+                <div class="relative aspect-video w-full overflow-hidden mb-4 bg-black rounded-sm">
+                    <video class="w-full h-full object-cover" autoplay loop muted playsinline>
+                        <source src="https://assets.mixkit.co/videos/preview/mixkit-robotic-arm-assembling-a-car-part-41566-large.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">1. Высокоскоростная нарезка рулона</h3>
+                <p class="text-gray-400 text-sm font-light">Наши лезвия совершают идеальный срез с микро-допуском. Края рулона остаются абсолютно ровными, без бахромы и сколов.</p>
+            </div>
+
+            <div class="bg-[#12141c] border border-gray-800 p-4 rounded-sm">
+                <div class="relative aspect-video w-full overflow-hidden mb-4 bg-black rounded-sm">
+                    <video class="w-full h-full object-cover" autoplay loop muted playsinline>
+                        <source src="https://assets.mixkit.co/videos/preview/mixkit-water-dripping-on-a-surface-41680-large.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">2. Гидрофобный тест на отрыв</h3>
+                <p class="text-gray-400 text-sm font-light">Демонстрация влагостойкости армированных и специализированных лент TENZA в условиях агрессивного воздействия внешней среды.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="products" class="py-24 bg-[#08090d] border-y border-gray-900">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="border-b border-gray-800 pb-8 mb-16">
+                <h2 class="text-xs uppercase tracking-[0.3em] brand-gradient-text mb-2">Каталог решений</h2>
+                <p class="text-3xl font-bold tracking-tight text-white">Технические спецификации TENZA</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="border border-gray-800 bg-[#0b0c10] p-8 flex flex-col justify-between rounded-sm relative group hover:border-gray-700 transition">
+                    <div>
+                        <div class="h-1 w-12 brand-gradient-bg mb-6"></div>
+                        <h3 class="text-xl font-bold text-white mb-4">Малярная лента Premium</h3>
+                        <p class="text-gray-400 text-sm font-light leading-relaxed mb-6">Идеально подходит для автопокраски и финишных интерьерных работ. Держит четкую линию без подтеков краски.</p>
+                    </div>
+                    <table class="w-full text-xs text-left text-gray-400 border-t border-gray-800 pt-4">
+                        <tr class="border-b border-gray-900"><td class="py-2 font-medium">Ширина:</td><td class="py-2 text-right text-white">19 / 30 / 50 мм</td></tr>
+                        <tr class="border-b border-gray-900"><td class="py-2 font-medium">Намотка:</td><td class="py-2 text-right text-white">50 м</td></tr>
+                        <tr><td class="py-2 font-medium">Адгезия:</td><td class="py-2 text-right text-white">&ge; 6.5 Н/25мм</td></tr>
+                    </table>
+                </div>
+
+                <div class="border border-gray-800 bg-[#0b0c10] p-8 flex flex-col justify-between rounded-sm relative group hover:border-gray-700 transition">
+                    <div>
+                        <div class="h-1 w-12 brand-gradient-bg mb-6"></div>
+                        <h3 class="text-xl font-bold text-white mb-4">Влагостойкая лента AquaStop</h3>
+                        <p class="text-gray-400 text-sm font-light leading-relaxed mb-6">Специализированная полиэтиленовая основа для влажной среды. Незаменима при фасадных работах.</p>
+                    </div>
+                    <table class="w-full text-xs text-left text-gray-400 border-t border-gray-800 pt-4">
+                        <tr class="border-b border-gray-900"><td class="py-2 font-medium">Ширина:</td><td class="py-2 text-right text-white">48 мм</td></tr>
+                        <tr class="border-b border-gray-900"><td class="py-2 font-medium">Намотка:</td><td class="py-2 text-right text-white">25 / 50 м</td></tr>
+                        <tr><td class="py-2 font-medium">Адгезия:</td><td class="py-2 text-right text-white">&ge; 8.0 Н/25мм</td></tr>
+                    </table>
+                </div>
+
+                <div class="border border-gray-800 bg-[#0b0c10] p-8 flex flex-col justify-between rounded-sm relative group hover:border-gray-700 transition">
+                    <div>
+                        <div class="h-1 w-12 brand-gradient-bg mb-6"></div>
+                        <h3 class="text-xl font-bold text-white mb-4">Армированная лента TPL</h3>
+                        <p class="text-gray-400 text-sm font-light leading-relaxed mb-6">Сверхпрочная лента, усиленная тканевыми волокнами. Для жесткой фиксации, герметизации и упаковки.</p>
+                    </div>
+                    <table class="w-full text-xs text-left text-gray-400 border-t border-gray-800 pt-4">
+                        <tr class="border-b border-gray-900"><td class="py-2 font-medium">Ширина:</td><td class="py-2 text-right text-white">48 / 75 мм</td></tr>
+                        <tr class="border-b border-gray-900"><td class="py-2 font-medium">Намотка:</td><td class="py-2 text-right text-white">10 / 25 / 50 м</td></tr>
+                        <tr><td class="py-2 font-medium">Адгезия:</td><td class="py-2 text-right text-white">&ge; 12.0 Н/25мм</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacts" class="py-24 max-w-4xl mx-auto px-6 text-center">
+        <h2 class="text-xs uppercase tracking-[0.3em] brand-gradient-text mb-2">Обратная связь</h2>
+        <p class="text-3xl font-bold tracking-tight text-white mb-4">Заказать партию или получить образцы</p>
+        <p class="text-gray-400 font-light mb-12 max-w-lg mx-auto text-sm">Оставьте заявку, и наш инженер свяжется с вами для подбора адгезива под технические задачи вашего предприятия.</p>
+        
+        <form class="grid md:grid-cols-2 gap-6 text-left">
+            <div>
+                <label class="text-xs uppercase tracking-wider text-gray-500 block mb-2">Ваше имя</label>
+                <input type="text" placeholder="Александр" class="w-full bg-[#12141c] border border-gray-800 focus:border-[#7f00ff] px-4 py-3 text-white text-sm rounded-sm outline-none transition">
+            </div>
+            <div>
+                <label class="text-xs uppercase tracking-wider text-gray-500 block mb-2">Контактный телефон</label>
+                <input type="tel" placeholder="+7 (999) 000-00-00" class="w-full bg-[#12141c] border border-gray-800 focus:border-[#7f00ff] px-4 py-3 text-white text-sm rounded-sm outline-none transition">
+            </div>
+            <div class="md:col-span-2">
+                <label class="text-xs uppercase tracking-wider text-gray-500 block mb-2">Сообщение / Объем партии</label>
+                <textarea rows="4" placeholder="Интересует малярная лента Premium 50мм, партия 500 шт..." class="w-full bg-[#12141c] border border-gray-800 focus:border-[#7f00ff] px-4 py-3 text-white text-sm rounded-sm outline-none transition resize-none"></textarea>
+            </div>
+            <div class="md:col-span-2 text-center mt-4">
+                <button type="button" class="brand-gradient-bg text-white font-medium px-12 py-4 rounded-sm text-sm uppercase tracking-wider hover:opacity-90 transition inline-block">
+                    Отправить запрос
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <footer class="border-t border-gray-900 bg-[#08090d] py-8 text-center text-xs text-gray-600">
+        <p>&copy; 2026 TENZA Ленты Специального Назначения. Все права защищены.</p>
+    </footer>
+
+</body>
+</html>
