@@ -336,6 +336,11 @@ bot.catch((err, ctx) => {
 
 // Launch
 const PORT = process.env.PORT || 3000;
+const http = require('http');
+
+http.createServer((req, res) => {
+  res.end('OK');
+}).listen(PORT);
 
 bot.launch({
   polling: {
