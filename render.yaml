@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: urban-telegram-bot
+    env: node
+    region: frankfurt
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: BOT_TOKEN
+        scope: build,runtime
+      - key: ADMIN_CHAT_ID
+        scope: build,runtime
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
