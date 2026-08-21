@@ -1,6 +1,7 @@
 require('dotenv').config();
 const { Telegraf } = require('telegraf');
 const http = require('http');
+const products = require('./products');
 
 console.log('Starting bot...');
 console.log('BOT_TOKEN:', process.env.BOT_TOKEN ? 'SET' : 'MISSING');
@@ -72,6 +73,31 @@ bot.action('contacts', async (ctx) => {
 bot.action('help', async (ctx) => {
   await ctx.answerCbQuery();
   await ctx.editMessageText('❓ Помощь\n\n(В разработке)', { reply_markup: { inline_keyboard: [[{ text: '🏠 Главное меню', callback_data: 'back_to_menu' }]] } });
+});
+
+// Category selection
+bot.action(/^category_(.+)$/, async (ctx) => {
+  await ctx.answerCbQuery();
+  const category = ctx.match[1];
+  const categoryProducts = products.filter(p => p.category === category);
+
+  const buttons = categoryProducts.map(p => [{ text: p.name, callback_data: 'product_' + p.id }]);
+  buttons.push([{ text: '⬅️ Назад', callback_data: 'catalog' }, { text: '🏠 Меню', callback_data: 'back_to_menu' }]);
+
+  await ctx.editMessageText(`👕 Товары категории "${category}":`, {
+    reply_markup: { inline_keyboard: buttons }
+  });
+});
+
+// Product selection
+bot.action(/^product_(\d+)$/, async (ctx) => {
+  await ctx.answerCbQuery();
+  const productId = parseInt(ctx.match[1]);
+  const product = products.find(p => p.id === productId);
+
+  await ctx.editMessageText(`📦 ${product.name}\n\nЦена: $${product.price || 'TBD'}\n\nЭто пустая карточка товара`, {
+    reply_markup: { inline_keyboard: [[{ text: '⬅️ Назад', callback_data: 'catalog' }, { text: '🏠 Меню', callback_data: 'back_to_menu' }]] }
+  });
 });
 
 // Launch
