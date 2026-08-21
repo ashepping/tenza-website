@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Telegraf } = require('telegraf');
+const { Telegraf, session } = require('telegraf');
 const http = require('http');
 const products = require('./products');
 
@@ -8,6 +8,9 @@ console.log('BOT_TOKEN:', process.env.BOT_TOKEN ? 'SET' : 'MISSING');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const PORT = process.env.PORT || 3000;
+
+// Initialize session middleware
+bot.use(session());
 
 // User bookings storage
 const userBookings = {};
