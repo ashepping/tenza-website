@@ -23,7 +23,7 @@ bot.start(async (ctx) => {
   sessions[userId] = {};
 
   await ctx.replyWithPhoto(
-    'https://images.unsplash.com/photo-1567521464027-f127ff144326?w=800',
+    'https://images.unsplash.com/photo-1560126213-8c994cb3f84b?w=800',
     {
       caption: `🌟 Добро пожаловать в URBAN! 🌟\n\nМы продаём качественную мужскую одежду и аксессуары.\n\nВыбери что нужно:`,
       reply_markup: keyboards.mainMenuKeyboard
