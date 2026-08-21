@@ -75,16 +75,27 @@ bot.action('help', async (ctx) => {
   await ctx.editMessageText('❓ Помощь\n\n(В разработке)', { reply_markup: { inline_keyboard: [[{ text: '🏠 Главное меню', callback_data: 'back_to_menu' }]] } });
 });
 
+// Category icons
+const categoryIcons = {
+  'Пиджаки': '🧥',
+  'Рубашки': '👔',
+  'Брюки': '👖',
+  'Галстуки': '🎀',
+  'Обувь': '👠',
+  'Готовый образ': '👨‍💼'
+};
+
 // Category selection
 bot.action(/^category_(.+)$/, async (ctx) => {
   await ctx.answerCbQuery();
   const category = ctx.match[1];
   const categoryProducts = products.filter(p => p.category === category);
+  const icon = categoryIcons[category] || '📦';
 
   const buttons = categoryProducts.map(p => [{ text: p.name, callback_data: 'product_' + p.id }]);
   buttons.push([{ text: '⬅️ Назад', callback_data: 'catalog' }, { text: '🏠 Меню', callback_data: 'back_to_menu' }]);
 
-  await ctx.editMessageText(`👕 Товары категории "${category}":`, {
+  await ctx.editMessageText(`${icon} Товары категории "${category}":`, {
     reply_markup: { inline_keyboard: buttons }
   });
 });
@@ -94,8 +105,9 @@ bot.action(/^product_(\d+)$/, async (ctx) => {
   await ctx.answerCbQuery();
   const productId = parseInt(ctx.match[1]);
   const product = products.find(p => p.id === productId);
+  const icon = categoryIcons[product.category] || '📦';
 
-  await ctx.editMessageText(`📦 ${product.name}\n\nЦена: $${product.price || 'TBD'}\n\nЭто пустая карточка товара`, {
+  await ctx.editMessageText(`${icon} ${product.name}\n\nЦена: $${product.price || 'TBD'}\n\nЭто пустая карточка товара`, {
     reply_markup: { inline_keyboard: [[{ text: '⬅️ Назад', callback_data: 'catalog' }, { text: '🏠 Меню', callback_data: 'back_to_menu' }]] }
   });
 });
