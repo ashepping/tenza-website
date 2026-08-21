@@ -228,10 +228,10 @@ bot.action('leave_contacts', async (ctx) => {
   const userId = ctx.from.id;
   ctx.session = ctx.session || {};
   ctx.session.awaitingName = userId;
-  await ctx.reply('Введите ваше имя:', { reply_markup: { remove_keyboard: true } });
+  await ctx.reply('👤 Введите ваше имя:', { reply_markup: { remove_keyboard: true } });
 });
 
-// Handle text input for name and phone
+// Handle text input for name
 bot.on('text', async (ctx) => {
   const userId = ctx.from.id;
   ctx.session = ctx.session || {};
@@ -240,14 +240,22 @@ bot.on('text', async (ctx) => {
   if (ctx.session.awaitingName === userId) {
     userContacts[userId].name = ctx.message.text;
     ctx.session.awaitingName = null;
-    ctx.session.awaitingPhone = userId;
 
-    await ctx.reply('Введите ваш номер телефона:', { reply_markup: { remove_keyboard: true } });
+    await ctx.reply('📱 Отправьте ваш номер телефона:', {
+      reply_markup: {
+        keyboard: [
+          [{ text: '📞 Отправить мой номер', request_contact: true }]
+        ],
+        resize_keyboard: true,
+        one_time_keyboard: true
+      }
+    });
+    ctx.session.awaitingPhone = userId;
     return;
   }
 
-  // Step 2: Capture phone and show confirmation
-  if (ctx.session.awaitingPhone === userId) {
+  // Step 2: Handle text input for phone (if user prefers to type)
+  if (ctx.session.awaitingPhone === userId && !ctx.message.contact) {
     userContacts[userId].phone = ctx.message.text;
     ctx.session.awaitingPhone = null;
 
@@ -256,9 +264,33 @@ bot.on('text', async (ctx) => {
     confirmText += `📱 Телефон: ${userContacts[userId].phone}`;
 
     await ctx.reply(confirmText, {
-      reply_markup: { inline_keyboard: [[{ text: '✅ Отправить', callback_data: 'submit_order' }]] }
+      reply_markup: {
+        inline_keyboard: [[{ text: '✅ Отправить', callback_data: 'submit_order' }]],
+        resize_keyboard: false
+      }
     });
     return;
+  }
+});
+
+// Handle contact sharing
+bot.on('contact', async (ctx) => {
+  const userId = ctx.from.id;
+  ctx.session = ctx.session || {};
+
+  if (ctx.session.awaitingPhone === userId) {
+    userContacts[userId].phone = ctx.message.contact.phone_number;
+    ctx.session.awaitingPhone = null;
+
+    let confirmText = '📋 Проверьте ваши контакты:\n\n';
+    confirmText += `👤 Имя: ${userContacts[userId].name}\n`;
+    confirmText += `📱 Телефон: ${userContacts[userId].phone}`;
+
+    await ctx.reply(confirmText, {
+      reply_markup: {
+        inline_keyboard: [[{ text: '✅ Отправить', callback_data: 'submit_order' }]]
+      }
+    });
   }
 });
 
