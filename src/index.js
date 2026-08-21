@@ -9,6 +9,9 @@ console.log('BOT_TOKEN:', process.env.BOT_TOKEN ? 'SET' : 'MISSING');
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const PORT = process.env.PORT || 3000;
 
+// User bookings storage
+const userBookings = {};
+
 // Main menu keyboard
 const mainMenuKeyboard = {
   inline_keyboard: [
@@ -57,10 +60,28 @@ bot.action('back_to_menu', async (ctx) => {
   await ctx.editMessageText('🌟 Добро пожаловать в URBAN! 🌟\n\nМы продаём качественную мужскую одежду и аксессуары.\n\nВыбери что нужно:', { reply_markup: mainMenuKeyboard });
 });
 
-// Bookings (empty for now)
+// Bookings
 bot.action('bookings', async (ctx) => {
   await ctx.answerCbQuery();
-  await ctx.editMessageText('📋 Мои бронирования\n\n(В разработке)', { reply_markup: { inline_keyboard: [[{ text: '🏠 Главное меню', callback_data: 'back_to_menu' }]] } });
+  const userId = ctx.from.id;
+  const userBookingsList = userBookings[userId] || [];
+
+  if (userBookingsList.length === 0) {
+    await ctx.editMessageText('📋 Мои бронирования\n\nУ вас нет добавленных товаров', { reply_markup: { inline_keyboard: [[{ text: '🏠 Главное меню', callback_data: 'back_to_menu' }]] } });
+    return;
+  }
+
+  let bookingText = '📋 Мои бронирования\n\n';
+  let totalPrice = 0;
+
+  userBookingsList.forEach((booking, index) => {
+    bookingText += `${index + 1}. ${booking.productName} - $${booking.price}\n`;
+    totalPrice += booking.price;
+  });
+
+  bookingText += `\n💰 Всего: $${totalPrice}`;
+
+  await ctx.editMessageText(bookingText, { reply_markup: { inline_keyboard: [[{ text: '🏠 Главное меню', callback_data: 'back_to_menu' }]] } });
 });
 
 // Contacts (empty for now)
@@ -77,7 +98,7 @@ bot.action('help', async (ctx) => {
 
 // Category icons
 const categoryIcons = {
-  'Пиджаки': '🧥',
+  'Пиджаки': '🤵',
   'Рубашки': '👔',
   'Брюки': '👖',
   'Галстуки': '🎀',
@@ -108,8 +129,29 @@ bot.action(/^product_(\d+)$/, async (ctx) => {
   const icon = categoryIcons[product.category] || '📦';
 
   await ctx.editMessageText(`${icon} ${product.name}\n\nЦена: $${product.price || 'TBD'}\n\nЭто пустая карточка товара`, {
-    reply_markup: { inline_keyboard: [[{ text: '⬅️ Назад', callback_data: 'catalog' }, { text: '🏠 Меню', callback_data: 'back_to_menu' }]] }
+    reply_markup: { inline_keyboard: [[{ text: '➕ Добавить в бронирования', callback_data: 'add_booking_' + productId }], [{ text: '⬅️ Назад', callback_data: 'catalog' }, { text: '🏠 Меню', callback_data: 'back_to_menu' }]] }
   });
+});
+
+// Add to bookings
+bot.action(/^add_booking_(\d+)$/, async (ctx) => {
+  await ctx.answerCbQuery();
+  const productId = parseInt(ctx.match[1]);
+  const product = products.find(p => p.id === productId);
+  const userId = ctx.from.id;
+
+  if (!userBookings[userId]) {
+    userBookings[userId] = [];
+  }
+
+  userBookings[userId].push({
+    productId: product.id,
+    productName: product.name,
+    price: product.price,
+    category: product.category
+  });
+
+  await ctx.answerCbQuery('✅ Товар добавлен в бронирования', { show_alert: true });
 });
 
 // Launch

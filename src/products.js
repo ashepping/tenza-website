@@ -1,33 +1,33 @@
 const products = [
   // Пиджаки
-  { id: 1, category: 'Пиджаки', name: '[Товар 1]', price: 0 },
-  { id: 2, category: 'Пиджаки', name: '[Товар 2]', price: 0 },
-  { id: 3, category: 'Пиджаки', name: '[Товар 3]', price: 0 },
+  { id: 1, category: 'Пиджаки', name: 'Пиджак 1', price: 150 },
+  { id: 2, category: 'Пиджаки', name: 'Пиджак 2', price: 170 },
+  { id: 3, category: 'Пиджаки', name: 'Пиджак 3', price: 190 },
 
   // Рубашки
-  { id: 4, category: 'Рубашки', name: '[Товар 4]', price: 0 },
-  { id: 5, category: 'Рубашки', name: '[Товар 5]', price: 0 },
-  { id: 6, category: 'Рубашки', name: '[Товар 6]', price: 0 },
+  { id: 4, category: 'Рубашки', name: 'Рубашка 1', price: 80 },
+  { id: 5, category: 'Рубашки', name: 'Рубашка 2', price: 90 },
+  { id: 6, category: 'Рубашки', name: 'Рубашка 3', price: 100 },
 
   // Брюки
-  { id: 7, category: 'Брюки', name: '[Товар 7]', price: 0 },
-  { id: 8, category: 'Брюки', name: '[Товар 8]', price: 0 },
-  { id: 9, category: 'Брюки', name: '[Товар 9]', price: 0 },
+  { id: 7, category: 'Брюки', name: 'Брюки 1', price: 120 },
+  { id: 8, category: 'Брюки', name: 'Брюки 2', price: 130 },
+  { id: 9, category: 'Брюки', name: 'Брюки 3', price: 140 },
 
   // Галстуки
-  { id: 10, category: 'Галстуки', name: '[Товар 10]', price: 0 },
-  { id: 11, category: 'Галстуки', name: '[Товар 11]', price: 0 },
-  { id: 12, category: 'Галстуки', name: '[Товар 12]', price: 0 },
+  { id: 10, category: 'Галстуки', name: 'Галстук 1', price: 45 },
+  { id: 11, category: 'Галстуки', name: 'Галстук 2', price: 50 },
+  { id: 12, category: 'Галстуки', name: 'Галстук 3', price: 55 },
 
   // Обувь
-  { id: 13, category: 'Обувь', name: '[Товар 13]', price: 0 },
-  { id: 14, category: 'Обувь', name: '[Товар 14]', price: 0 },
-  { id: 15, category: 'Обувь', name: '[Товар 15]', price: 0 },
+  { id: 13, category: 'Обувь', name: 'Туфли 1', price: 180 },
+  { id: 14, category: 'Обувь', name: 'Туфли 2', price: 200 },
+  { id: 15, category: 'Обувь', name: 'Туфли 3', price: 220 },
 
   // Готовый образ
-  { id: 16, category: 'Готовый образ', name: '[Товар 16]', price: 0 },
-  { id: 17, category: 'Готовый образ', name: '[Товар 17]', price: 0 },
-  { id: 18, category: 'Готовый образ', name: '[Товар 18]', price: 0 }
+  { id: 16, category: 'Готовый образ', name: 'Комплект 1', price: 450 },
+  { id: 17, category: 'Готовый образ', name: 'Комплект 2', price: 520 },
+  { id: 18, category: 'Готовый образ', name: 'Комплект 3', price: 600 }
 ];
 
 module.exports = products;
