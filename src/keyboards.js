@@ -18,6 +18,8 @@ const categoriesKeyboard = {
     [{ text: '🧥 Пиджаки', callback_data: 'category_Пиджаки' }],
     [{ text: '👔 Рубашки', callback_data: 'category_Рубашки' }],
     [{ text: '👖 Брюки', callback_data: 'category_Брюки' }],
+    [{ text: '🎀 Галстуки', callback_data: 'category_Галстуки' }],
+    [{ text: '👟 Обувь', callback_data: 'category_Обувь' }],
     [{ text: '👨 Готовый образ', callback_data: 'category_Готовый образ' }],
     [{ text: '🏠 Главное меню', callback_data: 'back_to_menu' }]
   ]

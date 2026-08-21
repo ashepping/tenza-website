@@ -97,6 +97,8 @@ bot.action('help', async (ctx) => {
     `🧥 Пиджаки\n` +
     `👔 Рубашки\n` +
     `👖 Брюки\n` +
+    `🎀 Галстуки\n` +
+    `👟 Обувь\n` +
     `👨 Готовый образ`,
     { reply_markup: keyboards.helpKeyboard }
   );
