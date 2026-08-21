@@ -15,13 +15,10 @@ const mainMenuKeyboard = {
 
 const categoriesKeyboard = {
   inline_keyboard: [
-    [{ text: '👕 Футболки', callback_data: 'category_Футболки' }],
+    [{ text: '🧥 Пиджаки', callback_data: 'category_Пиджаки' }],
     [{ text: '👔 Рубашки', callback_data: 'category_Рубашки' }],
-    [{ text: '🧥 Худи', callback_data: 'category_Худи' }],
-    [{ text: '👖 Джинсы', callback_data: 'category_Джинсы' }],
-    [{ text: '🧤 Куртки', callback_data: 'category_Куртки' }],
-    [{ text: '👟 Обувь', callback_data: 'category_Обувь' }],
-    [{ text: '⌚ Аксессуары', callback_data: 'category_Аксессуары' }],
+    [{ text: '👖 Брюки', callback_data: 'category_Брюки' }],
+    [{ text: '👨 Готовый образ', callback_data: 'category_Готовый образ' }],
     [{ text: '🏠 Главное меню', callback_data: 'back_to_menu' }]
   ]
 };
@@ -85,6 +82,12 @@ const contactsKeyboard = {
   ]
 };
 
+const helpKeyboard = {
+  inline_keyboard: [
+    [{ text: '🏠 Главное меню', callback_data: 'back_to_menu' }]
+  ]
+};
+
 module.exports = {
   mainMenuKeyboard,
   categoriesKeyboard,
@@ -93,5 +96,6 @@ module.exports = {
   colorKeyboard,
   deliveryKeyboard,
   confirmKeyboard,
-  contactsKeyboard
+  contactsKeyboard,
+  helpKeyboard
 };

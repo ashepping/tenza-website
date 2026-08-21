@@ -89,19 +89,16 @@ bot.action('contacts', async (ctx) => {
 bot.action('help', async (ctx) => {
   await ctx.answerCbQuery();
   await ctx.editMessageText(
-    `ℹ️ Справка по боту\n\n` +
+    `ℹ️ Справка по боту URBAN\n\n` +
     `📦 Каталог - смотри товары\n` +
     `📋 Бронирования - твои заказы\n` +
     `📞 Контакты - как найти нас\n\n` +
     `Наш асортимент:\n` +
-    `👕 Футболки - от $25\n` +
-    `👔 Рубашки - от $32\n` +
-    `🧥 Худи - от $45\n` +
-    `👖 Джинсы - от $50\n` +
-    `🧤 Куртки - от $85\n` +
-    `👟 Обувь - от $65\n` +
-    `⌚ Аксессуары - от $15`,
-    { reply_markup: keyboards.mainMenuKeyboard }
+    `🧥 Пиджаки\n` +
+    `👔 Рубашки\n` +
+    `👖 Брюки\n` +
+    `👨 Готовый образ`,
+    { reply_markup: keyboards.helpKeyboard }
   );
 });
 
