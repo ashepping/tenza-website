@@ -25,7 +25,7 @@ const mainMenuKeyboard = {
 // Categories keyboard
 const categoriesKeyboard = {
   inline_keyboard: [
-    [{ text: '🧥 Пиджаки', callback_data: 'category_Пиджаки' }],
+    [{ text: '🤵 Пиджаки', callback_data: 'category_Пиджаки' }],
     [{ text: '👔 Рубашки', callback_data: 'category_Рубашки' }],
     [{ text: '👖 Брюки', callback_data: 'category_Брюки' }],
     [{ text: '🎀 Галстуки', callback_data: 'category_Галстуки' }],
@@ -81,7 +81,13 @@ bot.action('bookings', async (ctx) => {
 
   bookingText += `\n💰 Всего: $${totalPrice}`;
 
-  await ctx.editMessageText(bookingText, { reply_markup: { inline_keyboard: [[{ text: '🏠 Главное меню', callback_data: 'back_to_menu' }]] } });
+  const buttons = userBookingsList.map((booking, index) =>
+    [{ text: `❌ Удалить ${booking.productName}`, callback_data: 'delete_booking_' + index }]
+  );
+  buttons.push([{ text: '✅ Подтвердить бронирование', callback_data: 'confirm_booking' }]);
+  buttons.push([{ text: '🏠 Главное меню', callback_data: 'back_to_menu' }]);
+
+  await ctx.editMessageText(bookingText, { reply_markup: { inline_keyboard: buttons } });
 });
 
 // Contacts (empty for now)
@@ -152,6 +158,66 @@ bot.action(/^add_booking_(\d+)$/, async (ctx) => {
   });
 
   await ctx.answerCbQuery('✅ Товар добавлен в бронирования', { show_alert: true });
+});
+
+// Delete booking item
+bot.action(/^delete_booking_(\d+)$/, async (ctx) => {
+  await ctx.answerCbQuery();
+  const userId = ctx.from.id;
+  const index = parseInt(ctx.match[1]);
+
+  if (userBookings[userId] && userBookings[userId][index]) {
+    const removed = userBookings[userId].splice(index, 1);
+    await ctx.answerCbQuery(`❌ ${removed[0].productName} удален из бронирований`, { show_alert: true });
+
+    if (userBookings[userId].length === 0) {
+      await ctx.editMessageText('📋 Мои бронирования\n\nУ вас нет добавленных товаров', { reply_markup: { inline_keyboard: [[{ text: '🏠 Главное меню', callback_data: 'back_to_menu' }]] } });
+    } else {
+      let bookingText = '📋 Мои бронирования\n\n';
+      let totalPrice = 0;
+
+      userBookings[userId].forEach((booking, idx) => {
+        bookingText += `${idx + 1}. ${booking.productName} - $${booking.price}\n`;
+        totalPrice += booking.price;
+      });
+
+      bookingText += `\n💰 Всего: $${totalPrice}`;
+
+      const buttons = userBookings[userId].map((booking, idx) =>
+        [{ text: `❌ Удалить ${booking.productName}`, callback_data: 'delete_booking_' + idx }]
+      );
+      buttons.push([{ text: '✅ Подтвердить бронирование', callback_data: 'confirm_booking' }]);
+      buttons.push([{ text: '🏠 Главное меню', callback_data: 'back_to_menu' }]);
+
+      await ctx.editMessageText(bookingText, { reply_markup: { inline_keyboard: buttons } });
+    }
+  }
+});
+
+// Confirm booking
+bot.action('confirm_booking', async (ctx) => {
+  await ctx.answerCbQuery();
+  const userId = ctx.from.id;
+  const userBookingsList = userBookings[userId] || [];
+
+  if (userBookingsList.length === 0) {
+    await ctx.answerCbQuery('❌ Нечего подтверждать', { show_alert: true });
+    return;
+  }
+
+  let bookingText = '✅ Бронирование подтверждено!\n\n';
+  let totalPrice = 0;
+
+  userBookingsList.forEach((booking, index) => {
+    bookingText += `${index + 1}. ${booking.productName} - $${booking.price}\n`;
+    totalPrice += booking.price;
+  });
+
+  bookingText += `\n💰 Всего: $${totalPrice}`;
+
+  userBookings[userId] = [];
+
+  await ctx.editMessageText(bookingText, { reply_markup: { inline_keyboard: [[{ text: '📦 Каталог', callback_data: 'catalog' }, { text: '🏠 Меню', callback_data: 'back_to_menu' }]] } });
 });
 
 // Launch
