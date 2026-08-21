@@ -18,12 +18,7 @@ http.createServer((req, res) => {
 // Start command
 bot.start(async (ctx) => {
   console.log('User /start:', ctx.from.id);
-  await ctx.replyWithPhoto(
-    'https://images.unsplash.com/photo-1506629082632-ffc1b02f5882?w=800',
-    {
-      caption: '🌟 Добро пожаловать в URBAN! 🌟\n\nМы продаём качественную мужскую одежду и аксессуары.'
-    }
-  );
+  await ctx.reply('🌟 Добро пожаловать в URBAN! 🌟\n\nМы продаём качественную мужскую одежду и аксессуары.');
 });
 
 // Launch
