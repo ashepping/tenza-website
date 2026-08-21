@@ -11,6 +11,8 @@ const PORT = process.env.PORT || 3000;
 
 // User bookings storage
 const userBookings = {};
+// User contact info storage
+const userContacts = {};
 
 // Main menu keyboard
 const mainMenuKeyboard = {
@@ -205,7 +207,7 @@ bot.action('confirm_booking', async (ctx) => {
     return;
   }
 
-  let bookingText = '✅ Бронирование подтверждено!\n\n';
+  let bookingText = '✅ Заказ получен!\n\n';
   let totalPrice = 0;
 
   userBookingsList.forEach((booking, index) => {
@@ -214,10 +216,54 @@ bot.action('confirm_booking', async (ctx) => {
   });
 
   bookingText += `\n💰 Всего: $${totalPrice}`;
+  bookingText += '\n\n📞 Теперь введите ваши контакты для связи';
 
-  userBookings[userId] = [];
+  userContacts[userId] = { bookings: [...userBookingsList], total: totalPrice };
 
-  await ctx.editMessageText(bookingText, { reply_markup: { inline_keyboard: [[{ text: '📦 Каталог', callback_data: 'catalog' }, { text: '🏠 Меню', callback_data: 'back_to_menu' }]] } });
+  await ctx.editMessageText(bookingText, { reply_markup: { inline_keyboard: [[{ text: '📱 Ввести телефон', callback_data: 'enter_phone' }]] } });
+});
+
+// Enter phone number
+bot.action('enter_phone', async (ctx) => {
+  await ctx.answerCbQuery();
+  const userId = ctx.from.id;
+  ctx.session = ctx.session || {};
+  ctx.session.awaitingPhone = userId;
+  await ctx.reply('📱 Введите ваш номер телефона:', { reply_markup: { remove_keyboard: true } });
+});
+
+// Handle phone input
+bot.on('text', async (ctx) => {
+  const userId = ctx.from.id;
+  ctx.session = ctx.session || {};
+
+  if (ctx.session.awaitingPhone === userId) {
+    userContacts[userId].phone = ctx.message.text;
+    ctx.session.awaitingPhone = null;
+
+    await ctx.reply('✅ Телефон сохранён!\n\n📍 Теперь введите ваш адрес в Telegram (или напишите "@username"):', { reply_markup: { remove_keyboard: true } });
+    ctx.session.awaitingAddress = userId;
+    return;
+  }
+
+  if (ctx.session.awaitingAddress === userId) {
+    userContacts[userId].telegram = ctx.message.text;
+    ctx.session.awaitingAddress = null;
+
+    let finalText = '✅ Ваш заказ принят!\n\n';
+    finalText += '📋 Детали заказа:\n';
+    userContacts[userId].bookings.forEach((booking, index) => {
+      finalText += `${index + 1}. ${booking.productName} - $${booking.price}\n`;
+    });
+    finalText += `\n💰 Всего: $${userContacts[userId].total}`;
+    finalText += `\n📱 Телефон: ${userContacts[userId].phone}`;
+    finalText += `\n📍 Telegram: ${userContacts[userId].telegram}`;
+    finalText += '\n\n✨ Спасибо за заказ! Мы скоро свяжемся с вами.';
+
+    userBookings[userId] = [];
+
+    await ctx.reply(finalText, { reply_markup: mainMenuKeyboard });
+  }
 });
 
 // Launch
