@@ -222,40 +222,90 @@ bot.action('confirm_booking', async (ctx) => {
   userContacts[userId] = { bookings: [...userBookingsList], total: totalPrice };
 
   await ctx.editMessageText(bookingText, {
-    reply_markup: {
-      keyboard: [
-        [{ text: '📞 Отправить контакт', request_contact: true }]
-      ],
-      resize_keyboard: true,
-      one_time_keyboard: true
-    }
+    reply_markup: { inline_keyboard: [[{ text: '📝 Подтвердить контакты', callback_data: 'enter_contact_info' }]] }
   });
 });
 
-// Handle contact sharing from user
-bot.on('contact', async (ctx) => {
+// Enter contact info - start contact branch
+bot.action('enter_contact_info', async (ctx) => {
+  await ctx.answerCbQuery();
   const userId = ctx.from.id;
+  ctx.session = ctx.session || {};
+  ctx.session.awaitingName = userId;
 
-  if (userContacts[userId]) {
-    const contact = ctx.message.contact;
-    userContacts[userId].phone = contact.phone_number;
-    userContacts[userId].name = contact.first_name || 'User';
+  await ctx.editMessageText(
+    '📝 Подтвердить контакты\n\n👤 Введите ваше имя:',
+    { reply_markup: { remove_keyboard: true } }
+  );
+});
 
-    let finalText = '✅ Спасибо за заказ!\n\n';
-    finalText += '📋 Ваш заказ:\n';
-    userContacts[userId].bookings.forEach((booking, index) => {
-      finalText += `${index + 1}. ${booking.productName} - $${booking.price}\n`;
-    });
-    finalText += `\n💰 Всего: $${userContacts[userId].total}`;
-    finalText += `\n👤 Имя: ${userContacts[userId].name}`;
-    finalText += `\n📱 Телефон: ${userContacts[userId].phone}`;
-    finalText += '\n\n✨ Мы скоро свяжемся с вами!';
+// Handle text input for name and phone
+bot.on('text', async (ctx) => {
+  const userId = ctx.from.id;
+  ctx.session = ctx.session || {};
 
-    userBookings[userId] = [];
-    userContacts[userId] = {};
+  // Step 1: Capture name
+  if (ctx.session.awaitingName === userId) {
+    userContacts[userId].name = ctx.message.text;
+    ctx.session.awaitingName = null;
+    ctx.session.awaitingPhone = userId;
 
-    await ctx.reply(finalText, { reply_markup: mainMenuKeyboard });
+    await ctx.reply('✅ Имя сохранено!\n\n📱 Введите ваш номер телефона:');
+    return;
   }
+
+  // Step 2: Capture phone and show confirmation
+  if (ctx.session.awaitingPhone === userId) {
+    userContacts[userId].phone = ctx.message.text;
+    ctx.session.awaitingPhone = null;
+
+    let confirmText = '📝 Проверьте ваши контакты:\n\n';
+    confirmText += `👤 Имя: ${userContacts[userId].name}\n`;
+    confirmText += `📱 Телефон: ${userContacts[userId].phone}`;
+
+    await ctx.reply(confirmText, {
+      reply_markup: {
+        inline_keyboard: [
+          [{ text: '✅ Подтвердить', callback_data: 'confirm_contacts' }],
+          [{ text: '❌ Отмена', callback_data: 'cancel_contacts' }]
+        ]
+      }
+    });
+    return;
+  }
+});
+
+// Confirm contacts - final step
+bot.action('confirm_contacts', async (ctx) => {
+  await ctx.answerCbQuery();
+  const userId = ctx.from.id;
+  const contacts = userContacts[userId];
+
+  let finalText = '✅ Спасибо за заказ!\n\n';
+  finalText += '📋 Ваш заказ:\n';
+  contacts.bookings.forEach((booking, index) => {
+    finalText += `${index + 1}. ${booking.productName} - $${booking.price}\n`;
+  });
+  finalText += `\n💰 Всего: $${contacts.total}`;
+  finalText += `\n👤 Имя: ${contacts.name}`;
+  finalText += `\n📱 Телефон: ${contacts.phone}`;
+  finalText += '\n\n✨ Мы скоро свяжемся с вами!';
+
+  userBookings[userId] = [];
+  userContacts[userId] = {};
+
+  await ctx.reply(finalText, { reply_markup: mainMenuKeyboard });
+});
+
+// Cancel contacts
+bot.action('cancel_contacts', async (ctx) => {
+  await ctx.answerCbQuery();
+  const userId = ctx.from.id;
+  ctx.session = ctx.session || {};
+  ctx.session.awaitingName = null;
+  ctx.session.awaitingPhone = null;
+
+  await ctx.reply('❌ Отмена. Возвращаемся в меню.', { reply_markup: mainMenuKeyboard });
 });
 
 // Launch
